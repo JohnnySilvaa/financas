@@ -12,20 +12,21 @@ public class TesteConta {
 		
 		
 		Conta conta = new Conta();
-		conta.setTitular("Leonardo");
-		conta.setBanco("Caixa Economica");
-		conta.setAgencia("123");
-		conta.setNumero("123");
+        conta.setTitular("Leonardo");
+        conta.setBanco("Caixa Economica");
+        conta.setAgencia("123");
+        conta.setNumero("456");
 		
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("financas");
-		EntityManager em  = emf.createEntityManager();
-		
-		em.getTransaction().begin();
-		em.persist(conta);
-		em.getTransaction().commit();
-		
-		em.close();
-		emf.close();
+        EntityManagerFactory emf =  Persistence.createEntityManagerFactory("financas");
+        EntityManager em = emf.createEntityManager();
+
+
+        em.getTransaction().begin();
+        em.persist(conta);
+        em.getTransaction().commit();
+
+        em.close();
+        emf.close();
 		
 
 
