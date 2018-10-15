@@ -21,21 +21,27 @@ public class Movimentacao {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+
 	private BigDecimal valor;
+
 	@Enumerated(EnumType.STRING)
 	private TipoMovimentacao tipoMovimentacao;
+
 	@Temporal(TemporalType.TIMESTAMP)
 	private Calendar data;
+
 	private String descricao;
+
 	@ManyToOne
 	private Conta conta;
+
+	@ManyToMany
+	private List<Categoria> categoria;
+
 	
 	public void setCategoria(List<Categoria> categoria) {
 		this.categoria = categoria;
 	}
-
-	@ManyToMany
-    private List<Categoria> categoria;
 
 	public Integer getId() {
 		return id;
@@ -92,5 +98,5 @@ public class Movimentacao {
 	public void setCategorias(List<Categoria> categoria) {
 		this.categoria = categoria;
 	}
-	
+
 }
