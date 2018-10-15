@@ -3,14 +3,13 @@ package br.com.caelum.financas.teste;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import br.com.caelum.financas.modelo.Conta;
-import br.com.caelum.financas.modelo.Movimentacao;
 import br.com.caelum.financas.modelo.TipoMovimentacao;
 import br.com.caelum.financas.util.JPAUtil;
 
-public class TesteJPQL {
+public class TesteConsultaAVG {
 
 	public static void main(String[] args) {
 		EntityManager em = new JPAUtil().getEntityManager();
@@ -19,20 +18,18 @@ public class TesteJPQL {
 		Conta conta = new Conta();
 		conta.setId(2);
 
-		String jpql = "select m from Movimentacao m where m.conta = :pConta" + " and m.tipoMovimentacao = :pTipo"
-				+ " order by m.valor desc";
+		String jpql = "select distinct avg(m.valor) from Movimentacao m where m.conta = :pConta" + " and m.tipoMovimentacao = :pTipo" + " group by m.data";
 
-		Query query = em.createQuery(jpql);
+		TypedQuery<Double> query = em.createQuery(jpql, Double.class);
 		query.setParameter("pConta", conta);
 		query.setParameter("pTipo", TipoMovimentacao.SAIDA);
 
-		List<Movimentacao> resultados = query.getResultList();
+		List<Double> medias = query.getResultList();
 
-		for (Movimentacao movimentacao : resultados) {
-			System.out.println("Descricao: " + movimentacao.getDescricao());
-			System.out.println("Conta.id: " + movimentacao.getConta().getId());
+		for (Double media : medias) {
+		    System.out.println("A média é: " + media);
 		}
-
+		
 		em.getTransaction().commit();
 		em.close();
 	}
