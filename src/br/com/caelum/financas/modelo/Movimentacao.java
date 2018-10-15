@@ -30,6 +30,10 @@ public class Movimentacao {
 	@ManyToOne
 	private Conta conta;
 	
+	public void setCategoria(List<Categoria> categoria) {
+		this.categoria = categoria;
+	}
+
 	@ManyToMany
     private List<Categoria> categoria;
 
