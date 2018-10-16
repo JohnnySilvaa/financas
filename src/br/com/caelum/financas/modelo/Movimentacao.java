@@ -12,8 +12,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+
+@NamedQuery(query="select distinct avg(m.valor) from Movimentacao m where m.conta = :pConta" + " and m.tipoMovimentacao = :pTipo" + " group by m.data", name="MediasPorDiaETipo")
 
 @Entity
 public class Movimentacao {

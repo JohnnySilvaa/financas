@@ -9,7 +9,7 @@ import br.com.caelum.financas.modelo.Conta;
 import br.com.caelum.financas.modelo.TipoMovimentacao;
 import br.com.caelum.financas.util.JPAUtil;
 
-public class TesteConsultaAVG {
+public class TesteFuncaoJPQL {
 
 	public static void main(String[] args) {
 		EntityManager em = new JPAUtil().getEntityManager();
@@ -17,16 +17,15 @@ public class TesteConsultaAVG {
 
 		Conta conta = new Conta();
 		conta.setId(2);
+		
+		TypedQuery<Double> typedQuery = em.createNamedQuery("MediasPorDiaETipo", Double.class);
 
-		String jpql = "select distinct avg(m.valor) from Movimentacao m where m.conta = :pConta" + " and m.tipoMovimentacao = :pTipo" + " group by m.data";
+		typedQuery.setParameter("pConta", conta);
+		typedQuery.setParameter("pTipo", TipoMovimentacao.SAIDA);
+		
+		List<Double> medias = typedQuery.getResultList();
 
-		TypedQuery<Double> query = em.createQuery(jpql, Double.class);
-		query.setParameter("pConta", conta);
-		query.setParameter("pTipo", TipoMovimentacao.SAIDA);
-
-		List<Double> medias = query.getResultList();
-
-		for (Double media : medias) {
+		for (Double media :medias) {
 		    System.out.println("A média é: " + media);
 		}
 		
